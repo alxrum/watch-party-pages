@@ -1,0 +1,157 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><style>
+/* Illustrations of the welcome steps. Methodology, module 3, step 4: the browser is shown reduced
+   on a contrasting background with a shadow (a white screenshot on a white page disappears), the
+   window is clean — one tab, no bookmarks, no other extensions — the puzzle and the pin are
+   enlarged above life size, and the page behind is something the reader recognises. Rendered to
+   welcome/*.png at 2x by tools/render-shots.js. */
+* { box-sizing: border-box; margin: 0; }
+body { background: transparent; font: 13px/1.3 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; color: #1f1f1f; }
+.card { width: 640px; padding: 20px; background: oklch(93% 0.009 76); border-radius: 16px; position: relative; }
+.win { background: #fff; border-radius: 10px; box-shadow: 0 12px 32px rgba(0,0,0,.18), 0 2px 6px rgba(0,0,0,.1); position: relative; overflow: hidden; }
+svg.i { width: 18px; height: 18px; fill: none; stroke: #474747; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+/* tab strip */
+.strip { height: 38px; background: #dfe3e7; display: flex; align-items: flex-end; padding: 0 10px; gap: 6px; }
+.lights { display: flex; gap: 7px; align-self: center; margin-right: 12px; }
+.lights i { width: 11px; height: 11px; border-radius: 50%; display: block; }
+.tab { width: 216px; height: 31px; background: #fff; border-radius: 9px 9px 0 0; display: flex; align-items: center; gap: 8px; padding: 0 10px; font-size: 12px; }
+.tab .t { flex: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.plus { align-self: center; width: 26px; height: 26px; display: grid; place-items: center; }
+/* toolbar */
+.bar { height: 42px; display: flex; align-items: center; gap: 4px; padding: 0 8px; border-bottom: 1px solid #e3e3e3; }
+.btn { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; flex: none; }
+.btn[hidden] { display: none; }
+.omni { flex: 1; height: 32px; border-radius: 16px; background: #f1f3f4; display: flex; align-items: center; gap: 10px; padding: 0 12px; color: #5f6368; margin: 0 6px; font-size: 12.5px; }
+.avatar { width: 22px; height: 22px; border-radius: 50%; background: #c7d0d9; display: grid; place-items: center; }
+.ext { width: 20px; height: 20px; }
+/* the puzzle and the pin are the targets, so they are drawn larger than Chrome draws them */
+.slot-puzzle .ext, .pin .ext { width: 23px; height: 23px; }
+.ring { box-shadow: 0 0 0 3px #e5322d; background: #fff; }
+/* the page behind: a film player, which is where a watch party starts */
+.page { background: #0f0f10; position: relative; }
+.frame { position: absolute; inset: 0; background: radial-gradient(120% 90% at 50% 20%, #2a2f3a 0%, #14161b 55%, #0c0d10 100%); display: grid; place-items: center; }
+.play { width: 58px; height: 58px; border-radius: 50%; background: rgba(255,255,255,.14); display: grid; place-items: center; }
+.play svg { width: 24px; height: 24px; margin-left: 3px; }
+.ctrl { position: absolute; left: 16px; right: 16px; bottom: 14px; display: grid; gap: 8px; }
+.track { height: 4px; border-radius: 2px; background: rgba(255,255,255,.25); position: relative; }
+.track i { position: absolute; left: 0; top: 0; bottom: 0; width: 38%; border-radius: 2px; background: rgba(255,255,255,.8); display: block; }
+.ctrl .row { display: flex; align-items: center; gap: 12px; color: rgba(255,255,255,.85); font-size: 11.5px; }
+.ctrl .row svg { width: 15px; height: 15px; fill: none; stroke: rgba(255,255,255,.85); stroke-width: 2; stroke-linecap: round; }
+/* extensions menu */
+.menu { position: absolute; top: 76px; right: 40px; width: 290px; background: #fff; border-radius: 10px; box-shadow: 0 6px 22px rgba(0,0,0,.2), 0 0 0 1px rgba(0,0,0,.05); padding: 8px 0; z-index: 1; }
+.menu .head { display: flex; align-items: center; padding: 6px 16px 10px; font-size: 14px; font-weight: 600; }
+.menu .head span { flex: 1; }
+.menu .sub { padding: 2px 16px 6px; font-size: 11px; color: #5f6368; }
+.item { display: flex; align-items: center; gap: 12px; padding: 6px 10px 6px 16px; font-size: 13px; }
+.item .name { flex: 1; }
+.pin { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; }
+.menu .manage { border-top: 1px solid #e3e3e3; margin-top: 6px; padding: 10px 16px 4px; display: flex; gap: 12px; align-items: center; }
+/* annotations: a ring inside the target, a numbered badge and a curved arrow to it */
+.badge { position: absolute; width: 34px; height: 34px; border-radius: 50%; background: #e5322d; color: #fff; font-weight: 700; font-size: 18px; display: grid; place-items: center; box-shadow: 0 0 0 3px #fff, 0 2px 8px rgba(0,0,0,.25); z-index: 4; }
+svg.arrows { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 3; overflow: visible; }
+</style></head><body>
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="logo" viewBox="0 0 24 24">
+    <rect width="24" height="24" rx="6.5" fill="oklch(78% 0.155 72)"/>
+    <rect x="4.5" y="5.5" width="15" height="10.5" rx="2.2" fill="none" stroke="oklch(23% 0.04 60)" stroke-width="1.8"/>
+    <path d="M10.3 8.6l4.3 2.1-4.3 2.1z" fill="oklch(23% 0.04 60)"/>
+    <path d="M8 19.5h8" stroke="oklch(23% 0.04 60)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+  </symbol>
+  <symbol id="puzzle" viewBox="0 0 24 24"><path fill="#474747" d="M20.5 11H19V7a2 2 0 0 0-2-2h-4V3.5a2.5 2.5 0 0 0-5 0V5H4a2 2 0 0 0-2 2v3.8h1.5a2.7 2.7 0 0 1 0 5.4H2V20a2 2 0 0 0 2 2h3.8v-1.5a2.7 2.7 0 0 1 5.4 0V22H17a2 2 0 0 0 2-2v-4h1.5a2.5 2.5 0 0 0 0-5z"/></symbol>
+  <symbol id="pin" viewBox="0 0 24 24"><path fill="#474747" d="M16 9V4h1a1 1 0 0 0 0-2H7a1 1 0 0 0 0 2h1v5a3 3 0 0 1-3 3v2h6v7l1 1 1-1v-7h6v-2a3 3 0 0 1-3-3z"/></symbol>
+  <symbol id="back" viewBox="0 0 24 24"><path d="M19 12H5m6-6-6 6 6 6"/></symbol>
+  <symbol id="fwd" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+  <symbol id="reload" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.7M20 4v5h-5"/></symbol>
+  <symbol id="kebab" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.6" fill="#474747" stroke="none"/><circle cx="12" cy="12" r="1.6" fill="#474747" stroke="none"/><circle cx="12" cy="19" r="1.6" fill="#474747" stroke="none"/></symbol>
+  <symbol id="plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="person" viewBox="0 0 24 24"><circle cx="12" cy="9" r="4" fill="#fff" stroke="none"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0z" fill="#fff" stroke="none"/></symbol>
+  <symbol id="gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3M4.9 4.9l2.1 2.1m10 10 2.1 2.1M4.9 19.1 7 17m10-10 2.1-2.1"/></symbol>
+  <symbol id="lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8.5 11V8a3.5 3.5 0 0 1 7 0v3"/></symbol>
+  <symbol id="playtri" viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z" fill="#fff" stroke="none"/></symbol>
+  <symbol id="pause" viewBox="0 0 24 24"><path d="M9 5v14M15 5v14"/></symbol>
+  <symbol id="vol" viewBox="0 0 24 24"><path d="M4 9h3l5-4v14l-5-4H4z"/><path d="M16 9a4 4 0 0 1 0 6"/></symbol>
+  <symbol id="full" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></symbol>
+</svg>
+
+<template id="chrome">
+  <div class="strip">
+    <div class="lights"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i></div>
+    <div class="tab"><svg class="ext" style="width:15px;height:15px"><use href="#playtri"/></svg><span class="t">The film you are watching</span><svg class="i" style="width:13px;height:13px"><use href="#close"/></svg></div>
+    <div class="plus"><svg class="i"><use href="#plus"/></svg></div>
+  </div>
+  <div class="bar">
+    <div class="btn"><svg class="i"><use href="#back"/></svg></div>
+    <div class="btn"><svg class="i" style="stroke:#b0b0b0"><use href="#fwd"/></svg></div>
+    <div class="btn"><svg class="i"><use href="#reload"/></svg></div>
+    <div class="omni"><svg class="i" style="width:14px;height:14px;stroke:#5f6368"><use href="#lock"/></svg>Watching a film</div>
+    <div class="btn slot-wp" hidden><svg class="ext"><use href="#logo"/></svg></div>
+    <div class="btn slot-puzzle"><svg class="ext"><use href="#puzzle"/></svg></div>
+    <div class="btn"><span class="avatar"><svg style="width:16px;height:16px"><use href="#person"/></svg></span></div>
+    <div class="btn"><svg class="i"><use href="#kebab"/></svg></div>
+  </div>
+  <div class="page">
+    <div class="frame">
+      <div class="play"><svg><use href="#playtri"/></svg></div>
+      <div class="ctrl">
+        <div class="track"><i></i></div>
+        <div class="row">
+          <svg><use href="#pause"/></svg>
+          <svg><use href="#vol"/></svg>
+          <span>24:18 / 1:52:40</span>
+          <span style="flex:1"></span>
+          <svg><use href="#full"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<!-- steps 1 + 2: the extensions menu is open under the ringed puzzle; the pin of Watch Party is ringed -->
+<div class="card" id="step-1"><div class="win" data-page="225">
+  <div class="menu">
+    <div class="head"><span>Extensions</span><svg class="i" style="width:16px;height:16px"><use href="#close"/></svg></div>
+    <div class="sub">No access needed</div>
+    <div class="item"><svg class="ext"><use href="#logo"/></svg><span class="name">Watch Party</span><span class="pin" id="t2"><svg class="ext"><use href="#pin"/></svg></span><svg class="i" style="width:16px;height:16px"><use href="#kebab"/></svg></div>
+    <div class="manage"><svg class="i" style="width:16px;height:16px"><use href="#gear"/></svg>Manage extensions</div>
+  </div>
+</div></div>
+
+<!-- step 3: Watch Party pinned to the toolbar of a tab that is playing a film, and ringed -->
+<div class="card" id="step-2"><div class="win" data-page="225" data-pinned="1"></div></div>
+
+<script>
+const tpl = document.getElementById('chrome');
+for (const win of document.querySelectorAll('.win')) {
+  const menu = win.querySelector('.menu');
+  win.prepend(tpl.content.cloneNode(true));
+  win.querySelector('.page').style.height = win.dataset.page + 'px';
+  if (win.dataset.pinned) win.querySelector('.slot-wp').hidden = false;
+  if (menu) win.append(menu);
+}
+// A numbered badge at an offset from the target's centre, and a curved arrow from badge to target.
+// The ring is a box-shadow on the target itself, so it cannot drift away from it.
+function annotate(card, target, n, dx, dy, bend = 0.25) {
+  target.classList.add('ring');
+  const c = card.getBoundingClientRect(), t = target.getBoundingClientRect();
+  const tx = t.left - c.left + t.width / 2, ty = t.top - c.top + t.height / 2, r = t.width / 2;
+  const bx = tx + dx, by = ty + dy;
+  const badge = Object.assign(document.createElement('span'), { className: 'badge', textContent: n });
+  badge.style.left = bx - 17 + 'px'; badge.style.top = by - 17 + 'px';
+  card.append(badge);
+  const len = Math.hypot(dx, dy), ux = -dx / len, uy = -dy / len;
+  const sx = bx + ux * 24, sy = by + uy * 24, ex = tx - ux * (r + 8), ey = ty - uy * (r + 8);
+  const mx = (sx + ex) / 2 - uy * len * bend, my = (sy + ey) / 2 + ux * len * bend;
+  const ang = Math.atan2(ey - my, ex - mx), h = 12;
+  const head = (a) => `${ex - h * Math.cos(ang + a)},${ey - h * Math.sin(ang + a)}`;
+  let svg = card.querySelector('svg.arrows');
+  if (!svg) { svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); svg.setAttribute('class', 'arrows'); card.append(svg); }
+  svg.insertAdjacentHTML('beforeend', `<path d="M${sx},${sy} Q${mx},${my} ${ex},${ey}" fill="none" stroke="#e5322d" stroke-width="5" stroke-linecap="round"/>` +
+    `<path d="M${head(0.5)} L${ex},${ey} L${head(-0.5)}" fill="none" stroke="#e5322d" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>`);
+}
+const s1 = document.getElementById('step-1'), s2 = document.getElementById('step-2');
+annotate(s1, s1.querySelector('.slot-puzzle'), 1, -100, 0, 0.12);
+annotate(s1, document.getElementById('t2'), 2, -70, 105, 0.2);
+annotate(s2, s2.querySelector('.slot-wp'), 3, -75, 86, 0.2);
+</script>
+</body></html>

@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Join a watch party</title>
+<!--
+  The invite page of F-13 / F-14, mockup C2 — reference implementation.
+
+  It belongs to the pages repository (watch-party-pages, served from
+  https://alxrum.github.io/watch-party-pages/j/<CODE>) and is kept here so that it ships with the
+  code it has to agree with and so tools/e2e can serve this very file. Whoever publishes the pages
+  copies this file; nothing else in it is extension-specific.
+
+  Rules it follows:
+  - zero remote code and zero third-party requests (TZ 3.1): everything is inline, no font, no CDN,
+    no analytics;
+  - the room code is in the path and the film in the fragment, which never leaves the browser;
+  - with the extension installed the guest barely sees this page: the extension takes over and the
+    only thing they read is the "Joining ..." toast on the film tab (F-15);
+  - without it, the code stays in this tab's address, and the extension picks it up from here on
+    install (F-15a). So: never clear the address, never redirect away from it.
+-->
+<style>
+  :root {
+    --a-bg: oklch(98.6% 0.004 80); --a-surface: oklch(100% 0 0); --a-sunk: oklch(95.8% 0.007 78);
+    --a-line: oklch(90.5% 0.009 75); --a-fg: oklch(24% 0.013 60); --a-muted: oklch(52% 0.013 65);
+    --a-accent: oklch(78% 0.155 72); --a-accent-soft: oklch(94% 0.05 80);
+    --a-accent-ink: oklch(50% 0.12 60); --a-on-accent: oklch(23% 0.04 60);
+    --a-radius: 9px;
+    --a-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--a-bg); color: var(--a-fg); font: 15px/1.5 var(--a-font); }
+  main { max-width: 640px; margin: 0 auto; padding: 48px 20px 64px; display: grid; gap: 20px; }
+  .logo { width: 40px; height: 40px; }
+  h1 { margin: 0; font-size: 26px; letter-spacing: -0.015em; text-wrap: balance; }
+  .lede { margin: 0; color: var(--a-muted); }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    height: 46px; padding: 0 18px; border-radius: var(--a-radius); text-decoration: none;
+    font: 600 15px/1 var(--a-font); background: var(--a-accent); border: 1px solid var(--a-accent);
+    color: var(--a-on-accent); width: fit-content;
+  }
+  .info { background: var(--a-sunk); border-radius: var(--a-radius); padding: 14px 16px; display: grid; gap: 6px; }
+  .info b { font-size: 14px; }
+  .info p { margin: 0; font-size: 13.5px; color: var(--a-muted); }
+  .small { font-size: 13px; color: var(--a-muted); }
+  .code { font: 650 15px/1 ui-monospace, "SF Mono", Menlo, Consolas, monospace; letter-spacing: 0.12em; }
+  .spin { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--a-accent-ink); border-right-color: transparent; animation: spin 0.9s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .spin { animation: none; } }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main>
+  <svg class="logo" viewBox="0 0 24 24" aria-hidden="true">
+    <rect x="2.5" y="4" width="19" height="13" rx="2.6" fill="none" stroke="oklch(50% 0.12 60)" stroke-width="1.8"/>
+    <path d="M10 8.3l4.6 2.2L10 12.7z" fill="oklch(78% 0.155 72)"/>
+    <path d="M7 20.5h10" stroke="oklch(50% 0.12 60)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+  </svg>
+
+  <h1 id="title">You are invited to watch together</h1>
+  <p class="lede" id="what"></p>
+
+  <!-- waiting for the extension to answer (300 ms, F-14) -->
+  <section id="s-wait" class="info">
+    <b><span class="spin"></span> Looking for Watch Party…</b>
+  </section>
+
+  <!-- the extension is here: it opens the film and joins the room itself (F-15) -->
+  <section id="s-go" hidden class="info">
+    <b>Taking you into the room…</b>
+    <p>Watch Party is opening the film in another tab. You can close this one.</p>
+  </section>
+
+  <!-- the extension is not here: install, come back, autojoin (F-14) -->
+  <section id="s-install" hidden style="display:grid; gap:20px">
+    <a class="btn" id="add" href="https://chromewebstore.google.com/" rel="noopener">Add Watch Party to Chrome</a>
+    <div class="info" id="saved">
+      <b>Your room is saved</b>
+      <p>Install the extension and come back to this tab — you will be taken straight into the room
+        <span class="code" id="code2"></span>.</p>
+    </div>
+    <p class="small" id="own">You need your own account on the streaming site. We sync the players, we do not stream the video.</p>
+  </section>
+</main>
+
+<script>
+'use strict';
+(function () {
+  // Paste the published id here after the first upload to the dashboard; until then the page relies
+  // on the marker the extension's own content script sets (both paths are described in F-14).
+  var EXT_IDS = [];
+  var MARK = 'data-watch-party';
+  var WAIT_MS = 300;
+
+  function code() {
+    var m = /\/j\/([^\/?#]+)/.exec(location.pathname);
+    return m ? decodeURIComponent(m[1]).toUpperCase() : '';
+  }
+  function media() {
+    var frag = location.hash.replace(/^#/, '');
+    if (!frag || /[^A-Za-z0-9\-_]/.test(frag)) return {};
+    try {
+      var bin = atob(frag.replace(/-/g, '+').replace(/_/g, '/'));
+      var bytes = new Uint8Array(bin.length);
+      for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      var obj = JSON.parse(new TextDecoder().decode(bytes));
+      return obj && typeof obj === 'object' ? obj : {};
+    } catch (e) { return {}; }
+  }
+  function show(id) {
+    ['s-wait', 's-go', 's-install'].forEach(function (x) {
+      document.getElementById(x).hidden = x !== id;
+    });
+    document.documentElement.setAttribute('data-screen', id);
+  }
+
+  var CODE = code();
+  var M = media();
+  var host = '';
+  try { host = M.u ? new URL(M.u).host.replace(/^www\./, '') : ''; } catch (e) { host = ''; }
+  if (M.n) document.getElementById('title').textContent = M.n + ' invited you to watch together';
+  document.getElementById('what').textContent = [M.t || '', host].filter(Boolean).join(' · ');
+  document.getElementById('code2').textContent = CODE;
+
+  // Path 1 (works always, including an unpacked build): the extension's content script marks this
+  // page. Path 2 (TZ F-14 to the letter): externally_connectable + sendMessage with a 300 ms budget.
+  function marked() { return document.documentElement.getAttribute(MARK); }
+  function decide() {
+    var mark = marked();
+    if (mark === 'joining' || mark === 'joined') { show('s-go'); return true; }
+    return false;
+  }
+  if (!decide()) {
+    var answered = false;
+    if (window.chrome && chrome.runtime && chrome.runtime.sendMessage) {
+      EXT_IDS.forEach(function (id) {
+        try {
+          chrome.runtime.sendMessage(id, { t: 'wp-ping', code: CODE, media: M }, function (res) {
+            void chrome.runtime.lastError;
+            if (res && res.installed && !answered) { answered = true; show('s-go'); }
+          });
+        } catch (e) { /* no such extension: the normal case */ }
+      });
+    }
+    var observer = new MutationObserver(function () { if (decide()) { answered = true; observer.disconnect(); } });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: [MARK] });
+    setTimeout(function () {
+      observer.disconnect();
+      if (answered || decide()) return;
+      // A link with no readable code still shows the install screen — the extension is what this
+      // page is for — but it must not promise a room it cannot name (F-15: nobody is ever asked to
+      // type a code, so an unreadable one simply means "install, then click your friend's link
+      // again").
+      if (!CODE) document.getElementById('saved').hidden = true;
+      show('s-install');
+    }, WAIT_MS);
+  }
+})();
+</script>
+</body>
+</html>

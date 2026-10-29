@@ -114,16 +114,17 @@
 
   <h2>Websites the extension can reach</h2>
   <ul>
-    <li><strong>https://alxrum.github.io/watch-party-pages/j/*</strong> — our own invite page, the
-      only address the extension may reach without asking. It is how an invite link hands the room
-      code to the extension.</li>
+    <li><strong>https://alxrum.github.io/watch-party-pages/j/*</strong> — our own invite page. It is
+      how an invite link hands the room code to the extension.</li>
     <li><strong>https://www.netflix.com/*</strong> and <strong>https://www.youtube.com/*</strong> —
-      optional. The extension asks for a site the first time you start or join a party on it, by a
-      click, and uses the access only to read and set the position of that page's player.</li>
+      the two sites the extension is built for, so that clicking a friend's link is the whole of
+      joining. Chrome lists them when you install it. The access is used for one thing: reading and
+      setting the position of that page's player. Nothing on those pages is read, stored or sent
+      anywhere else.</li>
     <li><strong>https://*/*</strong> — optional, and never requested for every website at once:
-      Chrome asks for the single site you are on, so that a party can also run on a player we have
-      not named. You can withdraw any of these in <code>chrome://extensions</code> at any time, and
-      the extension does nothing on a site you have not granted.</li>
+      Chrome asks for the single site you are on, and only if you start a party on a player we have
+      not named. You can withdraw it in <code>chrome://extensions</code> at any time, and the
+      extension does nothing on a site you have not granted.</li>
   </ul>
 
   <h2>Children</h2>

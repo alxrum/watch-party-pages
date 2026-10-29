@@ -39,6 +39,24 @@ export PATH="/opt/homebrew/Cellar/node@22/22.23.3_1/bin:$PATH"
 node tools/render-shots.js
 ```
 
+## Live, checked 29.10.2026
+
+| Address | |
+|---|---|
+| https://alxrum.github.io/watch-party-pages/welcome/ | 200 |
+| https://alxrum.github.io/watch-party-pages/uninstall/ | 200 |
+| https://alxrum.github.io/watch-party-pages/feedback/ | 200 |
+| https://alxrum.github.io/watch-party-pages/j/ | 200 |
+| https://alxrum.github.io/watch-party-pages/j/ABC23K | 404 by design — served from `404.html`, which is the invite page |
+
+Driven in real Chrome at `/j/ABC23K#<media>`: the guest sees "Maya invited you to watch together ·
+Some Film · netflix.com", the install button and "Your room is saved · ABC23K". The only two 404
+answers on that load are the document itself (the fallback, intended) and `/favicon.ico` at the
+domain root, which the browser asks for on its own and which is not part of this repository.
+
+The Umami script is on `welcome/`, `uninstall/` and `feedback/` and on neither invite page
+(checked against the live HTML).
+
 ## Still to fill in
 
 - **The Google Form ids.** `FORM_ID` and the `entry.*` constants at the bottom of `uninstall/` and

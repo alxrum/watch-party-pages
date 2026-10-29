@@ -13,6 +13,7 @@ const PAGES = [
   ['welcome', 'welcome/index.html', ''],
   ['uninstall', 'uninstall/index.html', ''],
   ['feedback', 'feedback/index.html', ''],
+  ['privacy', 'privacy/index.html', ''],
   ['invite-404', '404.html', ''],
 ];
 

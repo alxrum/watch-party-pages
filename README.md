@@ -10,6 +10,7 @@ The static pages the Watch Party Chrome extension opens, served by GitHub Pages 
 | `uninstall/` | `chrome.runtime.setUninstallURL` | Four reasons and a free-text box, sent to a Google Form. |
 | `feedback/` | 1–3 stars in the rating widget (F-22) | One question, "What should be better?", to a Google Form. No stars, no link to the store. |
 | `j/<CODE>` | an invite link (F-13, F-14, F-15) | Hands the room to the extension, or offers the install and keeps the room for when the guest comes back. |
+| `privacy/` | the footer of the other three, and the store listing | The privacy policy. Same text as `privacy/watch-party.privacy.md` of the product folder, which is what goes to pinwisp.com when its token exists — when that page is published, this one should redirect to it rather than drift. No analytics here. |
 | `404.html` | GitHub Pages, for any unknown path | A copy of `j/index.html`, which is what makes `/j/<CODE>` work: the code is a path segment, not a file. Keep the two in step with `tools/sync-404.sh`. |
 
 `j/index.html` is a copy of `store/pages/j/index.html` in the extension repository, where it ships
@@ -46,6 +47,7 @@ node tools/render-shots.js
 | https://alxrum.github.io/watch-party-pages/welcome/ | 200 |
 | https://alxrum.github.io/watch-party-pages/uninstall/ | 200 |
 | https://alxrum.github.io/watch-party-pages/feedback/ | 200 |
+| https://alxrum.github.io/watch-party-pages/privacy/ | 200 |
 | https://alxrum.github.io/watch-party-pages/j/ | 200 |
 | https://alxrum.github.io/watch-party-pages/j/ABC23K | 404 by design — served from `404.html`, which is the invite page |
 
@@ -62,7 +64,10 @@ The Umami script is on `welcome/`, `uninstall/` and `feedback/` and on neither i
 - **The Google Form ids.** `FORM_ID` and the `entry.*` constants at the bottom of `uninstall/` and
   `feedback/` are empty, so both pages thank the reader and send nothing. Fill them from each
   form's pre-filled link (⋮ → "Get pre-filled link").
-- **The privacy link.** The policy lives on `https://pinwisp.com/watch-party/privacy/` and is not
-  published yet; the footers link to the issue tracker only until it is.
+- **The policy's canonical address.** It is published here, at
+  `https://alxrum.github.io/watch-party-pages/privacy/`, and that is what the footers link to. The
+  files for pinwisp.com are written and waiting for a GitLab token
+  (`../privacy/watch-party.{stub,privacy}.md`). Whichever address the store listing ends up naming
+  is the one to keep: changing it after moderation costs another review round.
 - **The store id** in `j/index.html` (`EXT_IDS`, and the "Add to Chrome" button's address): both are
   known only after the first upload to the dashboard.

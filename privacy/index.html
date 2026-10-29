@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Privacy policy — Watch Party</title>
+<!--
+  The same text as privacy/watch-party.privacy.md of the product folder, which is what goes to
+  pinwisp.com once its token exists. Two live copies of a policy are one too many: when the pinwisp
+  page is published, this one should redirect there rather than drift apart from it.
+  No analytics on this page, by the rule that covers policy pages.
+-->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6.5' fill='%23f0a33c'/%3E%3Crect x='4.5' y='5.5' width='15' height='10.5' rx='2.2' fill='none' stroke='%233a2c20' stroke-width='1.8'/%3E%3Cpath d='M10.3 8.6l4.3 2.1-4.3 2.1z' fill='%233a2c20'/%3E%3Cpath d='M8 19.5h8' stroke='%233a2c20' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* The tokens of the approved mockup (design/watch-party.dc.html, v3), the same ones the invite
+     page j/ is built from, so all four pages of the product read as one. */
+  :root {
+    --bg: oklch(98.6% 0.004 80); --card: oklch(95.8% 0.007 78); --line: oklch(90.5% 0.009 75);
+    --fg: oklch(24% 0.013 60); --muted: oklch(52% 0.013 65);
+    --accent: oklch(78% 0.155 72); --accent-ink: oklch(50% 0.12 60); --ok: oklch(58% 0.13 150);
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 17px/1.55 "Instrument Sans", -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
+  .shell { max-width: 780px; margin: 0 auto; padding: 24px 20px 56px; }
+  header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+  .mark { width: 32px; height: 32px; flex: none; }
+  .brand { font-weight: 600; font-size: 18px; }
+  h1 { font-size: 30px; line-height: 1.15; letter-spacing: -0.02em; margin: 0 0 6px; }
+  .lead { color: var(--muted); font-size: 17px; margin: 0 0 22px; }
+  .ok { display: inline-flex; align-items: center; gap: 8px; color: var(--ok); font-weight: 600; font-size: 15px; margin-bottom: 6px; }
+  ol.steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 24px; }
+  .step h2 { display: flex; gap: 12px; align-items: center; font-size: 18px; line-height: 1.3; margin: 0 0 10px; letter-spacing: -0.01em; }
+  .step h2.pair { margin-bottom: 6px; }
+  .num { flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: oklch(23% 0.04 60); display: grid; place-items: center; font-size: 15px; font-weight: 700; }
+  .shot { display: block; width: 100%; max-width: 640px; height: auto; border-radius: 16px; }
+  .after { margin-top: 28px; padding: 20px 22px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); color: var(--muted); }
+  .after b { color: var(--fg); }
+  footer { margin-top: 56px; color: var(--muted); font-size: 14px; display: flex; gap: 20px; flex-wrap: wrap; }
+  footer a { color: var(--muted); }
+  @media (max-width: 560px) { h1 { font-size: 26px; } .step h2 { font-size: 17px; } }
+
+  article { max-width: 680px; }
+  article h2 { font-size: 20px; letter-spacing: -0.01em; margin: 32px 0 10px; }
+  article p { margin: 0 0 14px; }
+  article ul { margin: 0 0 14px; padding-left: 22px; display: grid; gap: 8px; }
+  article code { font: 14.5px/1 ui-monospace, "SF Mono", Menlo, Consolas, monospace; background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 2px 6px; }
+  article a { color: var(--accent-ink); }
+  .updated { color: var(--muted); font-size: 15px; margin: 0 0 28px; }
+</style>
+</head>
+<body>
+<div class="shell">
+  <header>
+    <svg class="mark" viewBox="0 0 24 24" aria-hidden="true">
+      <rect width="24" height="24" rx="6.5" fill="oklch(78% 0.155 72)"/>
+      <rect x="4.5" y="5.5" width="15" height="10.5" rx="2.2" fill="none" stroke="oklch(23% 0.04 60)" stroke-width="1.8"/>
+      <path d="M10.3 8.6l4.3 2.1-4.3 2.1z" fill="oklch(23% 0.04 60)"/>
+      <path d="M8 19.5h8" stroke="oklch(23% 0.04 60)" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+    </svg>
+    <span class="brand">Watch Party</span>
+  </header>
+
+  <h1>Privacy policy</h1>
+  <p class="updated">Last updated: 29 October 2026</p>
+
+  <article>
+  <p><strong>Watch Party does not collect personal information.</strong> It keeps several people's
+  video players in step while each of them watches the same film on their own streaming account. It
+  does not stream video, and it never reads, records or forwards the video itself.</p>
+
+  <h2>What leaves your browser</h2>
+  <p>While you are in a room, and only then, the extension sends the events that keep the players
+  together: play, pause, seek, the current position, the playback rate, an identifier of the film
+  taken from the address of the page, the six-character room code, an anonymous member id the
+  extension generates for itself, and the display name you choose. Chat messages are passed through
+  the same connection. That is the whole list.</p>
+  <p>Nothing is sent when you are not in a room.</p>
+
+  <h2>What never leaves your browser</h2>
+  <p>Page content, cookies, browsing history, your account on any streaming service, your email, your
+  login, and any identifier of you as a person. The extension has no analytics, no telemetry, no
+  advertising and makes no third-party request of any kind.</p>
+
+  <h2>Where it goes, and for how long</h2>
+  <p>The room events and chat messages travel through our relay server, which passes them to the
+  other people in the room and keeps nothing: they are not written to a database, to a log or to a
+  disk. When the last person leaves, the room stops existing. Closing the room ends the conversation
+  with it.</p>
+
+  <h2>What is stored on your computer</h2>
+  <p>Using <code>chrome.storage.local</code>, which stays on this computer and is never synchronised
+  to a Google account: the anonymous member id, your display name, whether you have seen the
+  introduction, the "follow the host" switch, the last room code, and the counters that decide when
+  the rating question may be shown. Removing the extension removes all of it.</p>
+
+  <h2>Permissions, and why each one is needed</h2>
+  <ul>
+    <li><strong>storage</strong> — to keep the settings listed above on this computer.</li>
+    <li><strong>offscreen</strong> — to hold the room connection in a hidden document, because
+      Chrome stops an extension's background worker after about 30 seconds of quiet and the room
+      would drop with it.</li>
+    <li><strong>sidePanel</strong> — to show the room's text chat in Chrome's own side panel.</li>
+    <li><strong>contextMenus</strong> — to add "Start a watch party here" and "Copy invite link" to
+      the right-click menu.</li>
+    <li><strong>tabs</strong> — to find the tab that is playing the film, and the invite tab a guest
+      opened, so that clicking a link is enough to get into the room.</li>
+    <li><strong>scripting</strong> — to insert the synchronisation code into the film's tab, on the
+      site you granted and on no other.</li>
+  </ul>
+
+  <h2>Websites the extension can reach</h2>
+  <ul>
+    <li><strong>https://alxrum.github.io/watch-party-pages/j/*</strong> — our own invite page, the
+      only address the extension may reach without asking. It is how an invite link hands the room
+      code to the extension.</li>
+    <li><strong>https://www.netflix.com/*</strong> and <strong>https://www.youtube.com/*</strong> —
+      optional. The extension asks for a site the first time you start or join a party on it, by a
+      click, and uses the access only to read and set the position of that page's player.</li>
+    <li><strong>https://*/*</strong> — optional, and never requested for every website at once:
+      Chrome asks for the single site you are on, so that a party can also run on a player we have
+      not named. You can withdraw any of these in <code>chrome://extensions</code> at any time, and
+      the extension does nothing on a site you have not granted.</li>
+  </ul>
+
+  <h2>Children</h2>
+  <p>The extension is not directed at children and collects nothing from anyone.</p>
+
+  <h2>Changes and contact</h2>
+  <p>If this policy changes, the date above changes with it. Questions, or anything that looks wrong:
+  <a href="https://github.com/alxrum/watch-party-pages/issues">github.com/alxrum/watch-party-pages/issues</a>.</p>
+
+  <h2>Trademarks</h2>
+  <p>Netflix, YouTube and any other service named here are trademarks of their owners. Watch Party is
+  an independent extension and is not affiliated with, endorsed by or sponsored by any of them.</p>
+  </article>
+
+  <footer>
+    <a href="https://github.com/alxrum/watch-party-pages/issues">Report a problem</a>
+  </footer>
+</div>
+</body>
+</html>
